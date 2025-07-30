@@ -1,3 +1,27 @@
 spring:
   application:
     name: simpleMessagingApi
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5435/messagingApiDB}
+    username: ${DATABASE_USERNAME:postgres} #postgres
+    password: ${DATABASE_PASSWORD:password} #password
+    driver-class-name: org.postgresql.Driver
+  jpa:
+      hibernate:
+        ddl-auto: none
+      database: postgresql
+      show-sql: true
+      database-platform: org.hibernate.dialect.PostgreSQLDialect
+  sql:
+      init:
+        mode: always
+application:
+  security:
+    jwt:
+      secret-key: ${SECRET_KEY:r0VRFbwLRZ5JjY8MToPxQYK1hDNoNsn3eLsBnlKK+IBgdL9e9mhRAvaBI6wg8q8Rn4PknMWoN3vkUifN+mRL/A==}
+      expiration: 120000
+logging:
+    pattern:
+      console: ${LOGPATTERN_CONSOLE:%green(%d{HH:mm:ss.SSS}) %blue(%-5level) %red([%thread]) %yellow(%logger{15}) - %msg%n}
+server:
+    port: 4040
