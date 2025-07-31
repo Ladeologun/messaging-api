@@ -1,10 +1,11 @@
 package com.xproj.simpleMessagingApi.utils;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @NoArgsConstructor
+@Builder
+@Getter
+@Setter
 public class ApplicationResponseWrapper<T> {
     private String message;
     private T data;

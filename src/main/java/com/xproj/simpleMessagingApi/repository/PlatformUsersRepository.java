@@ -8,6 +8,6 @@ import java.util.Optional;
 public interface PlatformUsersRepository extends JpaRepository<PlatformUsers, Long> {
     @Override
     Optional<PlatformUsers> findById(Long id);
-
     Optional<PlatformUsers> findByEmail(String email);
+    boolean existsByEmail(String email);
 }

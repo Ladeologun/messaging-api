@@ -1,14 +1,17 @@
 package com.xproj.simpleMessagingApi.auth;
 
 import com.xproj.simpleMessagingApi.dtos.LoginRequestDto;
+import com.xproj.simpleMessagingApi.dtos.RegisterRequestDto;
+import com.xproj.simpleMessagingApi.dtos.RegisterResponseDto;
 import com.xproj.simpleMessagingApi.exceptionHandlers.ApplicationRuntimeException;
+import com.xproj.simpleMessagingApi.model.PlatformUsers;
+import com.xproj.simpleMessagingApi.repository.PlatformUsersRepository;
 import com.xproj.simpleMessagingApi.websocketConfig.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +23,7 @@ import java.util.Map;
 public class AuthService {
 
     private final AuthenticationManager authenticationManager;
+    private final PlatformUsersRepository platformUsersRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
@@ -53,5 +57,17 @@ public class AuthService {
         } catch (Exception e) {
             throw new ApplicationRuntimeException(null, e.getMessage());
         }
+    }
+
+
+    public RegisterResponseDto registerUser(RegisterRequestDto registerRequestDto) {
+        boolean usernameExists = platformUsersRepository.existsByEmail(registerRequestDto.getEmail());
+        if (usernameExists) {
+            throw new ApplicationRuntimeException(null,"email already exists");
+        }
+        String hashPassword = passwordEncoder.encode(registerRequestDto.getPassword());
+        registerRequestDto.setPassword(hashPassword);
+        PlatformUsers savedUser = platformUsersRepository.save(registerRequestDto.convertToPlatformUser());
+        return new RegisterResponseDto(savedUser);
     }
 }
