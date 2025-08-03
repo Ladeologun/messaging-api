@@ -25,7 +25,7 @@ public class SimpleMessagingSecurityConfig {
             requiresChannel(rcc->rcc.anyRequest().requiresInsecure()).
             csrf((csrf) -> csrf.disable()).
             authorizeHttpRequests((requests) -> {
-                requests.requestMatchers("/auth/**","/ws").permitAll()
+                requests.requestMatchers("/auth/**","/ws/**").permitAll()
                         .anyRequest().authenticated();
             });
         http.formLogin(fml-> fml.disable());

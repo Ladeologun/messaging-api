@@ -22,11 +22,12 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-       registry.addEndpoint("/ws").setAllowedOrigins("*").withSockJS();
+       registry.addEndpoint("/ws").setAllowedOrigins("*");
     }
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+//        argumentResolvers.add(new AuthenticationArgumentResolver());
         argumentResolvers.add(new AuthenticationPrincipalArgumentResolver());
     }
 

@@ -19,9 +19,17 @@ application:
   security:
     jwt:
       secret-key: ${SECRET_KEY:r0VRFbwLRZ5JjY8MToPxQYK1hDNoNsn3eLsBnlKK+IBgdL9e9mhRAvaBI6wg8q8Rn4PknMWoN3vkUifN+mRL/A==}
-      expiration: 120000
+      expiration: 1200000
 logging:
-    pattern:
+  level:
+      org.springframework.web.socket: DEBUG
+      org.springframework.web.socket.messaging: DEBUG
+      org.springframework.messaging.simp: DEBUG
+      org.springframework.messaging.support: DEBUG
+      org.springframework.security: DEBUG
+      com.xproj.simpleMessagingApi: DEBUG
+
+  pattern:
       console: ${LOGPATTERN_CONSOLE:%green(%d{HH:mm:ss.SSS}) %blue(%-5level) %red([%thread]) %yellow(%logger{15}) - %msg%n}
 server:
     port: 4040
